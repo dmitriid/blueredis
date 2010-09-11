@@ -5,6 +5,9 @@ Blueprints is a database-agnostic library for handling graphs. Blueredis allows 
 Running
 ===
 
+Requires Redis 2.x compatible version of [JRedis](http://github.com/alphazero/jredis) (git clone this repo, and you'll get a jar)
+
+
     Graph db = new RedisGraph();
     
     String password = "pass";
