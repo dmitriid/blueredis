@@ -25,6 +25,8 @@ After this you work with the database as with any Blueprints-enabled graph.
 Implementation
 ===
 
+*Note: RedisGraph handles id creation for you. Any id parameter passed to addVertex/addEdge will be ignored. All ids are of type long*
+
 Vertices
 ---
 
