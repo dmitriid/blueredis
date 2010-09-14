@@ -29,7 +29,7 @@ public class RedisVertex extends RedisElement implements Vertex {
 
         try {
             this.db.getDatabase().zadd("globals:vertices", id, String.valueOf(id));            
-            //this.db.getDatabase().set(getIdentifier("id"), String.valueOf(id));
+            this.db.getDatabase().set("vertex:" + String.valueOf(id), String.valueOf(id));
         } catch(RedisException e) {
             e.printStackTrace();
         }

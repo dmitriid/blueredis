@@ -33,10 +33,14 @@ public class RedisEdge extends RedisElement implements Edge {
         this.label = label;
 
         try {
-            //this.db.getDatabase().set("edge:".concat(String.valueOf(id)).concat(":_id"), String.valueOf(id));
             this.db.getDatabase().set("edge:".concat(String.valueOf(id)).concat(":out"), String.valueOf(out.getId()));
             this.db.getDatabase().set("edge:".concat(String.valueOf(id)).concat(":in"), String.valueOf(in.getId()));
             this.db.getDatabase().set("edge:".concat(String.valueOf(id)).concat(":label"), label);
+
+            this.db.getDatabase().sadd("vertex:".concat(String.valueOf(in.getId())).concat(":edges:in"), String.valueOf(id));
+            this.db.getDatabase().sadd("vertex:".concat(String.valueOf(out.getId())).concat(":edges:out"), String.valueOf(id));
+
+            this.db.getDatabase().set("edge:" + String.valueOf(id), String.valueOf(id));
             this.db.getDatabase().zadd("globals:edges", id, String.valueOf(id));
         } catch(RedisException e) {
             e.printStackTrace();

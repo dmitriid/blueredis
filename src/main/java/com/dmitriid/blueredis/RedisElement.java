@@ -21,6 +21,7 @@ import com.tinkerpop.blueprints.pgm.Element;
 import org.jredis.RedisException;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class RedisElement implements Element {
@@ -35,7 +36,11 @@ public class RedisElement implements Element {
     @Override
     public Object getProperty(String s) {
         try {
-            return db.getDatabase().hget(getIdentifier("properties"), s);
+            byte[] o = (byte[])db.getDatabase().hget(getIdentifier("properties"), s);
+
+            if(o != null){
+                return new String(o);
+            }
         } catch(RedisException e) {
             e.printStackTrace();
         }
@@ -45,7 +50,10 @@ public class RedisElement implements Element {
     @Override
     public Set<String> getPropertyKeys() {
         try {
-            return new HashSet<String>(db.getDatabase().hkeys(getIdentifier("properties")));
+            List<String> l = db.getDatabase().hkeys(getIdentifier("properties"));
+            if(l != null){
+                return new HashSet<String>(l);
+            }
         } catch(RedisException e) {
             e.printStackTrace();
         }
@@ -99,7 +107,8 @@ public class RedisElement implements Element {
                 db.getDatabase().del(getIdentifier("properties"));
                 db.getDatabase().del(getIdentifier("edges:in"));
                 db.getDatabase().del(getIdentifier("edges:out"));
-                db.getDatabase().zrem("vertices", String.valueOf(id));
+                db.getDatabase().del("vertex:" + String.valueOf(id));
+                db.getDatabase().zrem("globals:vertices", String.valueOf(id));
             } catch(RedisException e) {
                 e.printStackTrace();
             }
@@ -107,17 +116,19 @@ public class RedisElement implements Element {
             RedisEdge edge = (RedisEdge) this;
 
             RedisVertex in = (RedisVertex) edge.getInVertex();
-            RedisVertex out = (RedisVertex) edge.getInVertex();
+            RedisVertex out = (RedisVertex) edge.getOutVertex();
 
             try {
                 db.getDatabase().del(getIdentifier("in"));
                 db.getDatabase().del(getIdentifier("out"));
                 db.getDatabase().del(getIdentifier("label"));
                 db.getDatabase().del(getIdentifier("properties"));
-                db.getDatabase().zrem("edges", String.valueOf(id));
+                db.getDatabase().del("edge:" + String.valueOf(id));
 
-                db.getDatabase().srem(in.getIdentifier("edges:out"), String.valueOf(getId()));
-                db.getDatabase().srem(out.getIdentifier("edges:in"), String.valueOf(getId()));
+                db.getDatabase().srem(out.getIdentifier("edges:out"), String.valueOf(getId()));
+                db.getDatabase().srem(in.getIdentifier("edges:in"), String.valueOf(getId()));
+
+                db.getDatabase().zrem("globals:edges", String.valueOf(id));
             } catch(RedisException e) {
                 e.printStackTrace();
             }
@@ -128,7 +139,7 @@ public class RedisElement implements Element {
     protected String getIdentifier(String suffix) {
         String prefix = this instanceof RedisVertex ? "vertex:" : "edge:";
         String identifier = prefix.concat(String.valueOf(id));
-        if(suffix != null) identifier.concat(":").concat(suffix);
+        if(suffix != null) identifier = identifier.concat(":").concat(suffix);
 
         return identifier;
 

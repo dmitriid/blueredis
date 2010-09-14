@@ -78,9 +78,20 @@ public class RedisGraph implements Graph {
 
     @Override
     public Vertex getVertex(Object o) {
-        Long id = getLong(o);
-        final Vertex vertex = new RedisVertex(id, this);
-        return vertex;
+        try{
+            Long id = getLong(o);
+
+            Object v = database.get("vertex:".concat(String.valueOf(id)));
+
+            if(v != null){
+                final Vertex vertex = new RedisVertex(id, this);
+                return vertex;
+            }
+
+            return null;
+        } catch (Exception e){
+            return null;
+        }
     }
 
     @Override
@@ -94,7 +105,7 @@ public class RedisGraph implements Graph {
 
         try {
             long count = database.zcard("globals:vertices");
-            db_vertices = database.zrange("globals:vertices", 1, count);
+            db_vertices = database.zrange("globals:vertices", 0, count);
         } catch(RedisException e) {
             e.printStackTrace();
         }
@@ -109,16 +120,26 @@ public class RedisGraph implements Graph {
     }
 
     @Override
-    public Edge addEdge(Object o, Vertex vertex, Vertex vertex1, String s) {
-        final Edge edge = new RedisEdge((RedisVertex)vertex, (RedisVertex)vertex1, s, this);
+    public Edge addEdge(Object o, Vertex outVertex, Vertex inVertex, String s) {
+        final Edge edge = new RedisEdge((RedisVertex)inVertex, (RedisVertex)outVertex, s, this);
         return edge;
     }
 
     @Override
     public Edge getEdge(Object o) {
-        Long id = getLong(o);
-        final Edge edge = new RedisEdge(id, this);
-        return edge;
+        try{
+            Long id = getLong(o);
+
+            Object e = database.get("edge:".concat(String.valueOf(id)));
+
+            if(e != null) {
+                final Edge edge = new RedisEdge(id, this);
+                return edge;
+            }
+            return null;
+        } catch(Exception e){
+            return null;
+        }
     }
 
     @Override
@@ -132,7 +153,7 @@ public class RedisGraph implements Graph {
 
         try {
             long count = database.zcard("globals:edges");
-            db_edges= database.zrange("globals:edges", 1, count);
+            db_edges= database.zrange("globals:edges", 0, count);
         } catch(RedisException e) {
             e.printStackTrace();
         }

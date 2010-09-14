@@ -29,7 +29,25 @@
             <artifactId>org.jredis.ri</artifactId>
             <version>a.0-SNAPSHOT-jar-with-dependencies</version>
             <scope>system</scope>
-            <systemPath>${basedir}/deps/JRedis.jar</systemPath>
+            <systemPath>${basedir}/deps/jars/org/jredis/ri/JRedis.jar</systemPath>
+        </dependency>
+        <!-- TESTING -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.5</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- LOGGING -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.1</version>
         </dependency>
     </dependencies>
     <properties>
@@ -107,6 +125,23 @@
                             <mainClass>com.dmitriid.cali.Main</mainClass>
                         </manifest>
                     </archive-->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.4.2</version>
+                <configuration>
+                    <systemProperties>
+                        <!--********************************-->
+                        <!-- PROPERY GRAPH MODEL TEST SUITE -->
+                        <!--********************************-->
+                        <!-- REDISGRAPH TEST PROPERTIES -->
+                        <property>
+                            <name>testRedisGraph</name>
+                            <value>true</value>
+                        </property>
+                    </systemProperties>
                 </configuration>
             </plugin>
         </plugins>
