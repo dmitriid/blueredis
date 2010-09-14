@@ -22,10 +22,14 @@ Requires Redis 2.x compatible version of [JRedis](http://github.com/alphazero/jr
 
 After this you work with the database as with any Blueprints-enabled graph.
 
-Implementation
+Peculiarities
 ===
 
-*Note: RedisGraph handles id creation for you. Any id parameter passed to addVertex/addEdge will be ignored. All ids are of type long*
+* RedisGraph handles id creation for you. Any id parameter passed to addVertex/addEdge will be ignored. All ids are of type long
+* By default all properties are saved and retrieved as strings, regardless of the type of object you pass to `addVertex`. If you want to save actual objects/values, call `graph.serializeProperties(true)`. Note though, that it uses Base64 encoding on top of Java serialization so it may take up a lot of space.
+
+Implementation
+===
 
 Vertices
 ---

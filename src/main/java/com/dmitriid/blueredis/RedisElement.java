@@ -16,13 +16,16 @@
 
 package com.dmitriid.blueredis;
 
+import biz.source_code.base64Coder.Base64Coder;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Element;
 import org.jredis.RedisException;
 
+import java.io.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 
 public class RedisElement implements Element {
     protected Long id = null;
@@ -39,9 +42,17 @@ public class RedisElement implements Element {
             byte[] o = (byte[])db.getDatabase().hget(getIdentifier("properties"), s);
 
             if(o != null){
-                return new String(o);
+                if(db.serializeProperties()){
+                    return getObject(new String(o));
+                } else {
+                    return new String(o);
+                }
             }
         } catch(RedisException e) {
+            e.printStackTrace();
+        } catch(IOException e) {
+            e.printStackTrace();
+        } catch(ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;
@@ -63,8 +74,16 @@ public class RedisElement implements Element {
     @Override
     public void setProperty(String s, Object o) {
         try {
-            db.getDatabase().hset(getIdentifier("properties"), s, String.valueOf(o));
+            String val;
+            if(db.serializeProperties()){
+                val = writeObject(o);
+            } else {
+                val = String.valueOf(o);
+            }
+            db.getDatabase().hset(getIdentifier("properties"), s, val);
         } catch(RedisException e) {
+            e.printStackTrace();
+        } catch(IOException e) {
             e.printStackTrace();
         }
     }
@@ -151,6 +170,24 @@ public class RedisElement implements Element {
 
     public boolean equals(Object object) {
         return (this.getClass().equals(object.getClass()) && this.getId().equals(((Element) object).getId()));
+    }
+
+    private String writeObject(Object o) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+
+        oos.writeObject(o);
+        oos.close();
+
+        return new String(Base64Coder.encode(baos.toByteArray()));
+    }
+
+    private Object getObject(String s) throws IOException, ClassNotFoundException {
+        byte[] data = Base64Coder.decode(s);
+        ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
+        Object o = ois.readObject();
+        ois.close();
+        return o;
     }
 
 }

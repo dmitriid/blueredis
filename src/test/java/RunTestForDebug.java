@@ -19,8 +19,8 @@ import com.dmitriid.blueredis.TestRedisGraph;
 public class RunTestForDebug {
     public static void main(String[] args){
         try {
-            //new TestRedisGraph().testVertexSuite();
-            //new TestRedisGraph().testEdgeSuite();
+            new TestRedisGraph().testVertexSuite();
+            new TestRedisGraph().testEdgeSuite();
             new TestRedisGraph().testGraphSuite();
         } catch(Exception e) {
             e.printStackTrace();

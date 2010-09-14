@@ -211,8 +211,8 @@ public class VertexTestSuite extends ModelTestSuite {
             v2.setProperty("key3", 20);
 
             assertEquals("value1", v1.getProperty("key1"));
-            assertEquals("10", v1.getProperty("key2"));
-            assertEquals("20", v2.getProperty("key3"));
+            assertEquals(10, v1.getProperty("key2"));
+            assertEquals(20, v2.getProperty("key3"));
 
         } else {
             Vertex v1 = graph.addVertex("\"1\"^^<http://www.w3.org/2001/XMLSchema#int>");
@@ -286,8 +286,8 @@ public class VertexTestSuite extends ModelTestSuite {
             v2.setProperty("key2", 20);
 
             assertEquals("value1", v1.removeProperty("key1"));
-            assertEquals("10", v1.removeProperty("key2"));
-            assertEquals("20", v2.removeProperty("key2"));
+            assertEquals(10, v1.removeProperty("key2"));
+            assertEquals(20, v2.removeProperty("key2"));
 
             assertNull(v1.removeProperty("key1"));
             assertNull(v1.removeProperty("key2"));
@@ -302,8 +302,8 @@ public class VertexTestSuite extends ModelTestSuite {
                 v2 = graph.getVertex(ids.get(1));
 
                 assertEquals("value1", v1.removeProperty("key1"));
-                assertEquals("10", v1.removeProperty("key2"));
-                assertEquals("20", v2.removeProperty("key2"));
+                assertEquals(10, v1.removeProperty("key2"));
+                assertEquals(20, v2.removeProperty("key2"));
 
                 assertNull(v1.removeProperty("key1"));
                 assertNull(v1.removeProperty("key2"));
@@ -317,8 +317,8 @@ public class VertexTestSuite extends ModelTestSuite {
                 v2.setProperty("key2", 30);
 
                 assertEquals("value2", v1.removeProperty("key1"));
-                assertEquals("20", v1.removeProperty("key2"));
-                assertEquals("30", v2.removeProperty("key2"));
+                assertEquals(20, v1.removeProperty("key2"));
+                assertEquals(30, v2.removeProperty("key2"));
 
                 assertNull(v1.removeProperty("key1"));
                 assertNull(v1.removeProperty("key2"));

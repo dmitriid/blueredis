@@ -69,7 +69,10 @@ public class TestRedisGraph extends TestCase {
             for(Method method : suite.getClass().getDeclaredMethods()) {
                 if(method.getName().startsWith("test")) {
                     System.out.println("Testing " + method.getName() + "...");
-                    method.invoke(suite, new RedisGraph());
+
+                    RedisGraph graph = new RedisGraph();
+                    graph.serializeProperties(true);
+                    method.invoke(suite, graph);
                 }
             }
         }
