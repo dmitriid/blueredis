@@ -32,6 +32,7 @@ Vertices
 
 Each vertex is represented by the following keys:
 
+* `vertex:ID`, vertex id. This one is used to test if a vertex exists
 * `vertex:ID:properties`, a hash of all vertex properties
 * `vertex:ID:edges:in`, a set of all incoming edges
 * `vertex:ID:edges:out`, a set of all outgoing edges
@@ -41,6 +42,7 @@ Edges
 
 Each edge is represented by the following keys:
 
+* `edge:ID`, edge id. This one is used to test if an edge exists
 * `edge:ID:label`, a string containing the edge's label
 * `edge:ID:in`, index of "in" vertex
 * `edge:ID:out`, index of "out" vertex
@@ -55,6 +57,11 @@ This are just some keys that hold values necessary for Blueredis to work:
 * `globals:next_edge_id`, a counter that's incremented each time a new edge is added
 * `globals:vertices`, a sorted list of all vertex ids
 * `globals:edges`, a sorted list of all edge ids
+
+Tests
+===
+
+RedisGraph now passes tinkerpop's tests (these are included with the source). However, tests have been modified to test for strings only, since redis doesn't save typed values.
 
 Naïveté
 ===
