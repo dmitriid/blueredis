@@ -25,8 +25,39 @@ After this you work with the database as with any Blueprints-enabled graph.
 Peculiarities
 ===
 
-* RedisGraph handles id creation for you. Any id parameter passed to addVertex/addEdge will be ignored. All ids are of type long
-* By default all properties are saved and retrieved as strings, regardless of the type of object you pass to `addVertex`. If you want to save actual objects/values, call `graph.serializeProperties(true)`. Note though, that it uses Base64 encoding on top of Java serialization so it may take up a lot of space.
+ID creation
+---
+
+RedisGraph **handles id creation for you**. Any id parameter passed to addVertex/addEdge will be ignored. All ids are of type long
+
+Serializing properties
+---
+
+**By default all properties are saved and retrieved as strings**, regardless of the type of object you pass to `addVertex`. If you want to save actual objects/values, call `graph.serializeProperties(true)`. Note though, that it uses Base64 encoding on top of Java serialization so it may take up a lot of space.
+
+Transactions
+---
+
+Currently **transactions are not supported**
+
+Indexing
+===
+
+Blueredis implements an index for both vertex and edge properties. This implementation is based on [A fast, fuzzy, full-text index using Redis](http://playnice.ly/blog/2010/05/05/a-fast-fuzzy-full-text-index-using-redis/). 
+
+Turning indexing off
+---
+
+**By default indexing is on**. To turn it off, call `graph.setIndexing(false)`. To turn it back on, call `graph.setIndexing(true)`.
+
+Implementing your own
+---
+
+You may wish to implement your own indexing service. To do this:
+
+* implement Blueprints' `Index` interface
+* make sure that your service's constructor accepts an instance of `RedisGraph`
+* call `graph.setIndexing(true, serviceInstance)` and pass an instance of your service to it
 
 Implementation
 ===
@@ -65,10 +96,14 @@ This are just some keys that hold values necessary for Blueredis to work:
 Tests
 ===
 
-RedisGraph now passes tinkerpop's tests (these are included with the source). However, tests have been modified to test for strings only, since redis doesn't save typed values.
+RedisGraph now passes tinkerpop's tests (these are included with the source).
 
 Naïveté
 ===
 
 In order to implement `getVertices()` and `getEdges` RedisGraph stores an ordered set of vertices and edges in `global:edges` and `global:vertices`. Because of this calling `getVertices()` or `getEdges` on a large set of either of these may be quite slow. This is the reason this implementation is both straightforward an naïve :)
 
+Benchmarks
+===
+
+Right now Blueredis does up to 1000 `addVertex` calls per second on a 3.5 year-old MacBook Pro. Don't take these numbers seriously and do your own performance tests to see if it will suit your needs. At least not until a proper benchmark can be put into place.

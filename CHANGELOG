@@ -1,0 +1,12 @@
+2010-18-09 Dmitrii 'Mamut' Dimandt <dmitrii@dmitriid.com>
+
++ Version bump to 0.2
++ Added RedisIndex. Implements Blueprints' Index interface.
+  RedisIndex indexes both edges and vertices. 
++ Added RedisGraph.setIndexing to turn indexing on/off or specify own indexing
+  service
++ Added CHANGELOG
+
+* Changed various methods throughout RedisElement to call index/remove from
+  index
+* Updated README

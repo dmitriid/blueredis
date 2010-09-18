@@ -37,8 +37,8 @@ public class TestRedisGraph extends TestCase {
         config.isRDFModel = false;
         config.supportsVertexIteration = true;
         config.supportsEdgeIteration = true;
-        config.supportsVertexIndex = false;
-        config.supportsEdgeIndex = false;
+        config.supportsVertexIndex = true;
+        config.supportsEdgeIndex = true;
         config.ignoresSuppliedIds = true;
     }
 

@@ -19,6 +19,7 @@ package com.dmitriid.blueredis;
 import biz.source_code.base64Coder.Base64Coder;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Element;
+import com.tinkerpop.blueprints.pgm.Index;
 import org.jredis.RedisException;
 
 import java.io.*;
@@ -80,6 +81,10 @@ public class RedisElement implements Element {
             } else {
                 val = String.valueOf(o);
             }
+            if(db.doIndexing()){
+                db.getIndex().remove(s, this.getProperty(s), this);
+                db.getIndex().put(s, o, this);
+            }
             db.getDatabase().hset(getIdentifier("properties"), s, val);
         } catch(RedisException e) {
             e.printStackTrace();
@@ -92,7 +97,10 @@ public class RedisElement implements Element {
     public Object removeProperty(String s) {
         try {
             Object property = getProperty(s);
-            db.getDatabase().hdel(getIdentifier("properties"), s);
+            if(db.doIndexing()) {
+                db.getDatabase().hdel(getIdentifier("properties"), s);
+                db.getIndex().remove(s, property, this);
+            }
             return property;
         } catch(RedisException e) {
             e.printStackTrace();
@@ -106,6 +114,16 @@ public class RedisElement implements Element {
     }
 
     public void remove() {
+        if(db.doIndexing()) {
+            Index index = db.getIndex();
+            Set<String> props = this.getPropertyKeys();
+            for(String p : props){
+                Object prop = this.getProperty(p);
+
+                index.remove(p, prop, this);
+            }
+        }
+
         if(this instanceof RedisVertex) {
             RedisVertex vertex = (RedisVertex) this;
 
@@ -128,6 +146,7 @@ public class RedisElement implements Element {
                 db.getDatabase().del(getIdentifier("edges:out"));
                 db.getDatabase().del("vertex:" + String.valueOf(id));
                 db.getDatabase().zrem("globals:vertices", String.valueOf(id));
+
             } catch(RedisException e) {
                 e.printStackTrace();
             }

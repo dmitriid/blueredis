@@ -32,21 +32,27 @@ public class RedisGraph implements Graph {
 
     private JRedis database = null;
     private boolean serializeProps = false; // if true, save type info with prop values
+    private Index index;
+    private boolean do_index = true;
 
     public RedisGraph() {
         database = new JRedisClient();
+        index = new RedisIndex(this);
     }
 
     public RedisGraph(String password) {
         database = new JRedisClient(password);
+        index = new RedisIndex(this);
     }
 
     public RedisGraph(String host, int port) {
         database = new JRedisClient(host, port);
+        index = new RedisIndex(this);
     }
 
     public RedisGraph(String host, int port, String password, int database) {
         this.database = new JRedisClient(host, port, password, database);
+        index = new RedisIndex(this);
     }
 
     public void serializeProperties(boolean serialize) {
@@ -55,6 +61,19 @@ public class RedisGraph implements Graph {
 
     public boolean serializeProperties() {
         return serializeProps;
+    }
+
+    public void setIndexing(boolean b) {
+        do_index = true;
+    }
+
+    public void setIndexing(boolean b, Index service) {
+        do_index = true;
+        index = service;
+    }
+
+    public boolean doIndexing(){
+        return do_index;
     }
 
     public long nextVertexId(){
@@ -187,7 +206,7 @@ public class RedisGraph implements Graph {
 
     @Override
     public Index getIndex() {
-        return null;
+        return index;
     }
 
     @Override
