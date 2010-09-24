@@ -1,3 +1,9 @@
+2010-24-09  Dmitrii 'Mamut' Dimandt <dmitrii@dmitriid.com>
+
+* missing dependency for serializable properties
+* fixed RedisGraph.setIndexing not setting the indexing flag
+
+
 2010-18-09 Dmitrii 'Mamut' Dimandt <dmitrii@dmitriid.com>
 
 + Version bump to 0.2

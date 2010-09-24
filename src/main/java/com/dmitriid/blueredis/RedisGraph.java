@@ -64,11 +64,11 @@ public class RedisGraph implements Graph {
     }
 
     public void setIndexing(boolean b) {
-        do_index = true;
+        do_index = b;
     }
 
     public void setIndexing(boolean b, Index service) {
-        do_index = true;
+        do_index = b;
         index = service;
     }
 

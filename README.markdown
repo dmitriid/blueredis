@@ -106,4 +106,4 @@ In order to implement `getVertices()` and `getEdges` RedisGraph stores an ordere
 Benchmarks
 ===
 
-Right now Blueredis does up to 1000 `addVertex` calls per second on a 3.5 year-old MacBook Pro. Don't take these numbers seriously and do your own performance tests to see if it will suit your needs. At least not until a proper benchmark can be put into place.
+Benchmarks can be found here: (benchmarks page in wiki)[http://github.com/dmitriid/blueredis/wiki]. Note that reeds seems performs better under load than during singular requests.
