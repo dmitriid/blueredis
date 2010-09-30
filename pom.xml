@@ -22,14 +22,24 @@
         <dependency>
             <groupId>com.tinkerpop</groupId>
             <artifactId>gremlin</artifactId>
-            <version>0.5-SNAPSHOT</version>
+            <version>0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tinkerpop</groupId>
+            <artifactId>blueprints</artifactId>
+            <version>0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.3</version>
         </dependency>
         <dependency>
             <groupId>jredis</groupId>
             <artifactId>org.jredis.ri</artifactId>
             <version>a.0-SNAPSHOT-jar-with-dependencies</version>
             <scope>system</scope>
-            <systemPath>${basedir}/deps/jars/org/jredis/ri/JRedis.jar</systemPath>
+            <systemPath>${basedir}/deps/JRedis.jar</systemPath>
         </dependency>
         <!-- TESTING -->
         <dependency>
