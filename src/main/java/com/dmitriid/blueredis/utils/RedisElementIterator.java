@@ -55,7 +55,7 @@ public class RedisElementIterator implements Iterator {
         Element el = null;
 
         try {
-            db_vertices = db.zrange("globals:vertices", current, 1);
+            db_vertices = db.zrange("globals:vertices", current, current + 1);
 
             long id = Long.parseLong(new String(db_vertices.get(0)));
 
