@@ -16,8 +16,6 @@
 
 package com.dmitriid.blueredis;
 
-import com.dmitriid.blueredis.utils.RedisEdgeIterable;
-import com.dmitriid.blueredis.utils.RedisVertexIterable;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Graph;
 import com.tinkerpop.blueprints.pgm.Index;
@@ -26,6 +24,8 @@ import org.jredis.JRedis;
 import org.jredis.RedisException;
 import org.jredis.ri.alphazero.JRedisClient;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class RedisGraph implements Graph {
@@ -129,7 +129,6 @@ public class RedisGraph implements Graph {
 
     @Override
     public Iterable<Vertex> getVertices() {
-        return new RedisVertexIterable(this);/*
         List<byte[]> db_vertices = null;
 
         try {
@@ -145,7 +144,7 @@ public class RedisGraph implements Graph {
             arr.add(new RedisVertex(Long.parseLong(new String(b)), this));
         }
 
-        return arr; */
+        return arr;
     }
 
     @Override
@@ -178,7 +177,6 @@ public class RedisGraph implements Graph {
 
     @Override
     public Iterable<Edge> getEdges() {
-        return new RedisEdgeIterable(this);/*
         List<byte[]> db_edges = null;
 
         try {
@@ -194,7 +192,7 @@ public class RedisGraph implements Graph {
             arr.add(new RedisEdge(Long.parseLong(new String(b)), this));
         }
 
-        return arr;     */
+        return arr;
     }
 
     @Override

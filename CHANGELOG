@@ -1,3 +1,12 @@
+2010-10-21  Dmitrii 'Mamut' Dimandt <dmitrii@dmitriid.com>
+
+* BREAKING CHANGE
+  getVertices()/getEdges() no longer return an ArrayList, but an iterable
+  as a result in/out edges on a vertex are now stored as zsets which breaks
+  backward compatibility
+  
+* iterable returned from getVertices()/getEdges() has a count() method to quickly 
+
 2010-24-09  Dmitrii 'Mamut' Dimandt <dmitrii@dmitriid.com>
 
 * missing dependency for serializable properties

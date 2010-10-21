@@ -14,7 +14,8 @@
  *    limitations under the License.
  */
 
-import com.dmitriid.blueredis.TestRedisGraph;
+import com.dmitriid.blueredis.BlueredisBenchmark;
+import com.dmitriid.blueredis.RedisGraph;
 
 public class RunTestForDebug {
     public static void main(String[] args){
@@ -22,7 +23,9 @@ public class RunTestForDebug {
             /*new TestRedisGraph().testVertexSuite();
             new TestRedisGraph().testEdgeSuite();
             new TestRedisGraph().testGraphSuite();*/
-            new TestRedisGraph().testIndexSuite();
+            //new TestRedisGraph().testIndexSuite();
+
+            new BlueredisBenchmark(new RedisGraph()).run();
         } catch(Exception e) {
             e.printStackTrace();
         }

@@ -98,12 +98,8 @@ Tests
 
 RedisGraph now passes tinkerpop's tests (these are included with the source).
 
-Naïveté
-===
-
-In order to implement `getVertices()` and `getEdges` RedisGraph stores an ordered set of vertices and edges in `global:edges` and `global:vertices`. Because of this calling `getVertices()` or `getEdges` on a large set of either of these may be quite slow. This is the reason this implementation is both straightforward an naïve :)
 
 Benchmarks
 ===
 
-Benchmarks can be found here: (benchmarks page in wiki)[http://github.com/dmitriid/blueredis/wiki]. Note that reeds seems performs better under load than during singular requests.
+Benchmarks can be found here: [benchmarks page in wiki](http://github.com/dmitriid/blueredis/wiki). Note that reeds seems performs better under load than during singular requests.
