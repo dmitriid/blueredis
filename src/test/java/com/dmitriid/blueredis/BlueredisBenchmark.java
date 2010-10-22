@@ -42,15 +42,16 @@ public class BlueredisBenchmark extends ModelTestSuite {
 
         int r = 0, c = 0;
 
-        System.gc();
-        System.gc();
-        System.gc();
-
-        Runtime r = Runtime.getRuntime();
-
-        r.gc();
-        
         for(int noOfRuns : runs) {
+
+            System.gc();
+            System.gc();
+            System.gc();
+
+            Runtime rt = Runtime.getRuntime();
+
+            rt.gc();
+
             c = 0;
             for(int noOfCalls : calls) {
                 if(noOfCalls * noOfRuns > 1000000) continue;

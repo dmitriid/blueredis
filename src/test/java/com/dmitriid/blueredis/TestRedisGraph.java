@@ -73,6 +73,7 @@ public class TestRedisGraph extends TestCase {
                     RedisGraph graph = new RedisGraph();
                     graph.serializeProperties(true);
                     method.invoke(suite, graph);
+                    graph.shutdown();
                 }
             }
         }

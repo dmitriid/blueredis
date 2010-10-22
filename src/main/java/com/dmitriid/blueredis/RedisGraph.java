@@ -16,6 +16,8 @@
 
 package com.dmitriid.blueredis;
 
+import com.dmitriid.blueredis.utils.RedisEdgeIterable;
+import com.dmitriid.blueredis.utils.RedisVertexIterable;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Graph;
 import com.tinkerpop.blueprints.pgm.Index;
@@ -24,8 +26,6 @@ import org.jredis.JRedis;
 import org.jredis.RedisException;
 import org.jredis.ri.alphazero.JRedisClient;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class RedisGraph implements Graph {
@@ -129,22 +129,7 @@ public class RedisGraph implements Graph {
 
     @Override
     public Iterable<Vertex> getVertices() {
-        List<byte[]> db_vertices = null;
-
-        try {
-            long count = database.zcard("globals:vertices");
-            db_vertices = database.zrange("globals:vertices", 0, count);
-        } catch(RedisException e) {
-            e.printStackTrace();
-        }
-        if(db_vertices == null) return null;
-
-        ArrayList<Vertex> arr = new ArrayList<Vertex>();
-        for(byte[] b : db_vertices) {
-            arr.add(new RedisVertex(Long.parseLong(new String(b)), this));
-        }
-
-        return arr;
+        return new RedisVertexIterable(this);
     }
 
     @Override
@@ -177,22 +162,7 @@ public class RedisGraph implements Graph {
 
     @Override
     public Iterable<Edge> getEdges() {
-        List<byte[]> db_edges = null;
-
-        try {
-            long count = database.zcard("globals:edges");
-            db_edges= database.zrange("globals:edges", 0, count);
-        } catch(RedisException e) {
-            e.printStackTrace();
-        }
-        if(db_edges == null) return null;
-
-        ArrayList<Edge> arr = new ArrayList<Edge>();
-        for(byte[] b : db_edges) {
-            arr.add(new RedisEdge(Long.parseLong(new String(b)), this));
-        }
-
-        return arr;
+        return new RedisEdgeIterable(this);
     }
 
     @Override

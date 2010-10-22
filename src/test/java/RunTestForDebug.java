@@ -23,6 +23,8 @@ public class RunTestForDebug {
             new TestRedisGraph().testEdgeSuite();
             new TestRedisGraph().testGraphSuite();
             new TestRedisGraph().testIndexSuite();
+
+            //new BlueredisBenchmark().run();
         } catch(Exception e) {
             e.printStackTrace();
         }
