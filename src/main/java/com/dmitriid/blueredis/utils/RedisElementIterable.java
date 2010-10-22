@@ -16,24 +16,30 @@
 
 package com.dmitriid.blueredis.utils;
 
+import com.dmitriid.blueredis.RedisElement;
 import com.dmitriid.blueredis.RedisGraph;
 import org.jredis.JRedis;
 import org.jredis.RedisException;
 
 public class RedisElementIterable {
 
-    protected RedisElementType type;
+    protected RedisElementType.TYPE type;
     protected RedisGraph graph;
     private JRedis db;
     protected long count = 0;
+    protected RedisElement element;
+    protected String elementCollectionKey;
 
-    public RedisElementIterable(RedisElementType type, RedisGraph graph) {
+    public RedisElementIterable(RedisElementType.TYPE type, RedisGraph graph) {
+        this(type, graph, null);
+    }
+    public RedisElementIterable(RedisElementType.TYPE type, RedisGraph graph, RedisElement element) {
         this.type  = type;
         this.graph = graph;
         this.db    = graph.getDatabase();
+        this.element = element;
 
-        String elementCollectionKey = "globals:";
-        elementCollectionKey += type.equals(RedisElementType.REDIS_ELEMENT_VERTEX) ? "vertices" : "edges";
+        elementCollectionKey = RedisElementType.key(type, element);
 
         try {
             count = db.zcard(elementCollectionKey);

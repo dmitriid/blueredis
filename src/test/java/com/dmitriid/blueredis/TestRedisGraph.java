@@ -65,7 +65,7 @@ public class TestRedisGraph extends TestCase {
 
     private void doSuiteTest(final com.tinkerpop.blueprints.pgm.ModelTestSuite suite) throws Exception {
         String doTest = System.getProperty("testRedisGraph");
-        if(doTest == null || doTest.equals("true")) {
+        if(doTest == null || doTest.equals("true")) { 
             for(Method method : suite.getClass().getDeclaredMethods()) {
                 if(method.getName().startsWith("test")) {
                     System.out.println("Testing " + method.getName() + "...");

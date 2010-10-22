@@ -16,10 +16,18 @@
 
 package com.dmitriid.blueredis.utils;
 
+import com.dmitriid.blueredis.RedisElement;
 import com.dmitriid.blueredis.RedisGraph;
 
 public class RedisVertexIterator extends RedisElementIterator {
     public RedisVertexIterator(final RedisGraph graph, final long count) {
-        super(RedisElementType.REDIS_ELEMENT_VERTEX, graph, count);
+        this(RedisElementType.TYPE.REDIS_ELEMENT_VERTEX, graph, count, null);
+    }
+    public RedisVertexIterator(final RedisGraph graph, final long count, final RedisElement element) {
+        this(RedisElementType.TYPE.REDIS_ELEMENT_VERTEX, graph, count, element);
+    }
+    public RedisVertexIterator(final RedisElementType.TYPE type, final RedisGraph graph, final long count, final RedisElement element) {
+        super(type, graph, count, element);
     }
 }
+ 

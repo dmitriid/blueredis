@@ -16,11 +16,11 @@
 
 package com.dmitriid.blueredis;
 
+import com.dmitriid.blueredis.utils.RedisEdgeIterable;
+import com.dmitriid.blueredis.utils.RedisElementType;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 import org.jredis.RedisException;
-
-import java.util.*;
 
 public class RedisVertex extends RedisElement implements Vertex {
 
@@ -42,7 +42,8 @@ public class RedisVertex extends RedisElement implements Vertex {
 
     @Override
     public Iterable<Edge> getOutEdges() {
-        List<byte[]> db_edges = null;
+        return new RedisEdgeIterable(RedisElementType.TYPE.REDIS_ELEMENT_EDGES_OUT, db, this);
+        /*List<byte[]> db_edges = null;
         try {
             db_edges = db.getDatabase().smembers(getIdentifier("edges:out"));
         } catch(RedisException e) {
@@ -55,12 +56,13 @@ public class RedisVertex extends RedisElement implements Vertex {
             arr.add(new RedisEdge(Long.parseLong(new String(b)), db));
         }
 
-        return arr;
+        return arr;*/
     }
 
     @Override
     public Iterable<Edge> getInEdges() {
-        List<byte[]> db_edges = null;
+        return new RedisEdgeIterable(RedisElementType.TYPE.REDIS_ELEMENT_EDGES_IN, db, this);
+        /*List<byte[]> db_edges = null;
         try {
             db_edges = db.getDatabase().smembers(getIdentifier("edges:in"));
         } catch(RedisException e) {
@@ -73,7 +75,7 @@ public class RedisVertex extends RedisElement implements Vertex {
             arr.add(new RedisEdge(Long.parseLong(new String(b)), db));
         }
 
-        return arr;
+        return arr;  */
     }
 
 }

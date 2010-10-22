@@ -16,7 +16,38 @@
 
 package com.dmitriid.blueredis.utils;
 
-public enum RedisElementType {
-    REDIS_ELEMENT_VERTEX,
-    REDIS_ELEMENT_EDGE    
+import com.tinkerpop.blueprints.pgm.Element;
+import com.tinkerpop.blueprints.pgm.Vertex;
+
+public class RedisElementType {
+    public static enum TYPE {
+        REDIS_ELEMENT_VERTEX,
+        REDIS_ELEMENT_EDGE,
+        REDIS_ELEMENT_EDGES_IN,
+        REDIS_ELEMENT_EDGES_OUT
+        //REDIS_ELEMENT_VERTEX_IN,        only one in/out vertex per edge
+        //REDIS_ELEMENT_VERTEX_OUT        no need for an iterator
+    }
+
+    public static String key(TYPE type, Element element){
+        if(null == element){
+            if(type.equals(TYPE.REDIS_ELEMENT_VERTEX)) return "globals:vertices";
+            if(type.equals(TYPE.REDIS_ELEMENT_EDGE)) return "globals:edges";
+        } else {
+            if(element instanceof Vertex){
+                if(type.equals(TYPE.REDIS_ELEMENT_EDGES_IN))
+                    return "vertex:".concat(element.getId().toString()).concat(":edges:in");
+                if(type.equals(TYPE.REDIS_ELEMENT_EDGES_OUT))
+                    return "vertex:".concat(element.getId().toString()).concat(":edges:out");
+            }
+            /*
+            else {
+                if(type.equals(TYPE.REDIS_ELEMENT_VERTEX_IN))
+                    return "edge:".concat(element.getId().toString()).concat(":in");
+                if(type.equals(TYPE.REDIS_ELEMENT_VERTEX_OUT))
+                return "edge:".concat(element.getId().toString()).concat(":out");
+            } */
+        }
+        return "";
+    }
 }

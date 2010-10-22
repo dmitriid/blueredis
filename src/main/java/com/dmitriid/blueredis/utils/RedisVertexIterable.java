@@ -16,6 +16,7 @@
 
 package com.dmitriid.blueredis.utils;
 
+import com.dmitriid.blueredis.RedisElement;
 import com.dmitriid.blueredis.RedisGraph;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
@@ -23,11 +24,19 @@ import java.util.Iterator;
 
 public class RedisVertexIterable extends RedisElementIterable implements Iterable<Vertex>{
     public RedisVertexIterable(final RedisGraph graph) {
-        super(RedisElementType.REDIS_ELEMENT_VERTEX, graph);
+        this(RedisElementType.TYPE.REDIS_ELEMENT_VERTEX, graph, null);
+    }
+
+    public RedisVertexIterable(final RedisGraph graph, final RedisElement element) {
+        this(RedisElementType.TYPE.REDIS_ELEMENT_VERTEX, graph, element);
+    }
+
+    public RedisVertexIterable(RedisElementType.TYPE type, final RedisGraph graph, final RedisElement element) {
+        super(type, graph, element);
     }
 
     @Override
     public Iterator iterator() {
-        return new RedisVertexIterator(graph, count);
+        return new RedisVertexIterator(type, graph, count, element);
     }
 }
