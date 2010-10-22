@@ -17,6 +17,7 @@
 package com.dmitriid.blueredis.utils;
 
 import com.dmitriid.blueredis.RedisEdge;
+import com.dmitriid.blueredis.RedisElement;
 import com.dmitriid.blueredis.RedisGraph;
 import com.dmitriid.blueredis.RedisVertex;
 import com.tinkerpop.blueprints.pgm.Element;
@@ -30,18 +31,24 @@ public class RedisElementIterator implements Iterator {
 
     protected RedisGraph graph;
     private JRedis db;
-    protected RedisElementType type;
+    protected RedisElementType.TYPE type;
+    protected RedisElement element;
     protected long count = 0, current = 0;
 
-    private String elementCollectionKey = "globals:";
+    private String elementCollectionKey;
 
-    public RedisElementIterator(RedisElementType type, RedisGraph graph, long count) {
+    public RedisElementIterator(RedisElementType.TYPE type, RedisGraph graph, long count) {
+        this(type, graph, count, null);
+    }
+    public RedisElementIterator(RedisElementType.TYPE type, RedisGraph graph, long count, RedisElement element) {
         this.type = type;
         this.graph = graph;
         this.db = graph.getDatabase();
         this.count = count;
+        this.element = element;
 
-        elementCollectionKey += type.equals(RedisElementType.REDIS_ELEMENT_VERTEX) ? "vertices" : "edges";
+        elementCollectionKey = RedisElementType.key(type, element);
+
     }
 
     @Override
@@ -55,11 +62,11 @@ public class RedisElementIterator implements Iterator {
         Element el = null;
 
         try {
-            db_vertices = db.zrange("globals:vertices", current, current + 1);
+            db_vertices = db.zrange(elementCollectionKey, current, current);
 
             long id = Long.parseLong(new String(db_vertices.get(0)));
 
-            if(type.equals(RedisElementType.REDIS_ELEMENT_VERTEX)) el = new RedisVertex(id, graph);
+            if(type.equals(RedisElementType.TYPE.REDIS_ELEMENT_VERTEX)) el = new RedisVertex(id, graph);
             else el = new RedisEdge(id, graph);
         } catch(RedisException e) {
             e.printStackTrace();

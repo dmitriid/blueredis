@@ -16,6 +16,7 @@
 
 package com.dmitriid.blueredis.utils;
 
+import com.dmitriid.blueredis.RedisElement;
 import com.dmitriid.blueredis.RedisGraph;
 import com.tinkerpop.blueprints.pgm.Edge;
 
@@ -23,11 +24,19 @@ import java.util.Iterator;
 
 public class RedisEdgeIterable extends RedisElementIterable implements Iterable<Edge>{
     public RedisEdgeIterable(final RedisGraph graph) {
-        super(RedisElementType.REDIS_ELEMENT_EDGE, graph);
+        this(RedisElementType.TYPE.REDIS_ELEMENT_EDGE, graph, null);
+    }
+
+    public RedisEdgeIterable(final RedisElementType.TYPE type, final RedisGraph graph) {
+        this(type, graph, null);
+    }
+
+    public RedisEdgeIterable(final RedisElementType.TYPE type, final RedisGraph graph, final RedisElement element) {
+        super(type, graph, element);
     }
 
     @Override
     public Iterator iterator() {
-        return new RedisEdgeIterator(graph, count);
+        return new RedisEdgeIterator(type, graph, count, element);
     }
 }

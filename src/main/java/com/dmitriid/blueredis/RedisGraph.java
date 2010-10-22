@@ -248,5 +248,4 @@ public class RedisGraph implements Graph {
         }
         return "redis[error retrieving info]";
     }
-
 }

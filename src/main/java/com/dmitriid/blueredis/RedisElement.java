@@ -163,8 +163,8 @@ public class RedisElement implements Element {
                 db.getDatabase().del(getIdentifier("properties"));
                 db.getDatabase().del("edge:" + String.valueOf(id));
 
-                db.getDatabase().srem(out.getIdentifier("edges:out"), String.valueOf(getId()));
-                db.getDatabase().srem(in.getIdentifier("edges:in"), String.valueOf(getId()));
+                db.getDatabase().zrem(out.getIdentifier("edges:out"), String.valueOf(getId()));
+                db.getDatabase().zrem(in.getIdentifier("edges:in"), String.valueOf(getId()));
 
                 db.getDatabase().zrem("globals:edges", String.valueOf(id));
             } catch(RedisException e) {
