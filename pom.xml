@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.dmitriid</groupId>
     <artifactId>blueredis</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
     <packaging>jar</packaging>
     <url>http://dmitriid.com</url>
     <name>Blueprints-enabled graph over redis</name>
@@ -19,15 +19,15 @@
     </developers>
     <inceptionYear>2010</inceptionYear>
     <dependencies>
-        <dependency>
+        <!--dependency>
             <groupId>com.tinkerpop</groupId>
             <artifactId>gremlin</artifactId>
-            <version>0.5</version>
-        </dependency>
+            <version>0.7</version>
+        </dependency-->
         <dependency>
             <groupId>com.tinkerpop</groupId>
             <artifactId>blueprints</artifactId>
-            <version>0.2</version>
+            <version>0.4</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
