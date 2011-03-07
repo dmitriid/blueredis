@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.dmitriid</groupId>
     <artifactId>blueredis</artifactId>
-    <version>0.2</version>
+    <version>0.2.1</version>
     <packaging>jar</packaging>
     <url>http://dmitriid.com</url>
     <name>Blueprints-enabled graph over redis</name>
